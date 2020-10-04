@@ -9,27 +9,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import th.ac.ku.atm.model.BankAccount;
 import th.ac.ku.atm.service.BankAccountService;
 
-
 @Controller
 @RequestMapping("/bankaccount")
 public class BankAccountController {
-    BankAccountService bankAccountService ;
 
-    public BankAccountController(BankAccountService bankAccountService) {
-        this.bankAccountService = bankAccountService;
+    private BankAccountService accountService;
+
+    public BankAccountController(BankAccountService accountService) {
+        this.accountService = accountService;
     }
 
     @GetMapping
-    public String GetBankaccountPage(Model model){
-        model.addAttribute("AllAccount",bankAccountService.getBankAccounts());
+    public String getBankAccountPage(Model model) {
+        model.addAttribute("bankaccounts", accountService.getBankAccounts());
         return "bankaccount";
-
     }
+
     @PostMapping
-    public String RegisterBankaccount(@ModelAttribute BankAccount bankAccount, Model model){
-        bankAccountService.CreateAccount(bankAccount);
-        model.addAttribute("Allaccount",bankAccountService.getBankAccounts());
+    public String openAccount(@ModelAttribute BankAccount bankAccount, Model model) {
+        accountService.openAccount(bankAccount);
+        model.addAttribute("bankaccounts",accountService.getBankAccounts());
         return "redirect:bankaccount";
     }
-
 }
